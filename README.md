@@ -17,8 +17,8 @@ The project follows a basic robotics loop:
 
 **Sense → Decide → Act**
 
-- Sense: Read turtle positions from turtlesim
-- Decide: Compute direction toward target turtle
+- Sense: Read turtle positions from turtlesim done
+- Decide: Compute direction toward target turtle 
 - Act: Publish velocity commands to move the turtle
 
 ---
@@ -34,7 +34,7 @@ The project follows a basic robotics loop:
 
 ---
 
-## 🧠 ROS2 Concepts Used
+## 🧠 ROS2 Concepts and workflow Used
 
 - Nodes (Publisher / Subscriber / Server / Client)
 - Custom Messages (.msg)
@@ -42,6 +42,14 @@ The project follows a basic robotics loop:
 - Launch files (XML)
 - Parameters (YAML)
 - Multi-package workspace design
+  
+"Two nodes power this project:
+turtle_spawner.py — spawns and kills turtles by calling turtlesim's built-in Spawn and Kill services. It runs its own catch_turtle service server — when the controller catches a turtle, it sends the position here and this node handles the kill. Also has it own publisher which publishes topic alive_turtles.
+
+turtle_controller.py — controls the main turtle. Subscribes to the Pose topic to track its own position, subscribes to the spawner's alive_turtles topic to know what to chase, calls catch_turtle when close enough, and publishes to cmd_vel to actually move."
+
+"To get a clear picture of how the nodes and topics connect, check the rqt_graph here 👇"
+![rqt_graph](images/rqt_graph.png)
 
 ---
 
